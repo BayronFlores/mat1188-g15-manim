@@ -1,0 +1,39 @@
+# Manim: salida generada
+media/
+partial_movie_files/
+
+# Videos, audios y entregables (van solo a Blackboard)
+*.mp4
+*.mov
+*.mp3
+*.wav
+*.m4a
+*.pdf
+
+# Python: bytecode y cachés
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.ipynb_checkpoints/
+
+# Python: entornos virtuales
+.venv/
+venv/
+env/
+
+# Python: empaquetado y cobertura
+build/
+dist/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Editores y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
