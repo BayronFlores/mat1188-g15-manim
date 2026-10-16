@@ -39,7 +39,7 @@ config.background_color = BG_COLOR
 # ---------------------------------------------------------------------------
 # Constantes propias de esta escena (maquetación; no van en params.py)
 # ---------------------------------------------------------------------------
-INTEGRANTES = "Bayron Flores · Rodrigo Gutiérrez · Jose Jiménez"
+INTEGRANTES = "Bayron Flores · Rodrigo Gutiérrez · José Jiménez"
 VOZ = "Voz: Bayron Flores"
 EVENTO = "EID Manim 2026"
 
