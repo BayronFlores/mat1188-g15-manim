@@ -38,7 +38,8 @@ TABLE_TOP = 0.15              # y del encabezado de la tabla
 ROW_STEP = 0.55               # separación vertical entre filas
 SUMA_Y = 1.25                 # y central del bloque con la sumatoria
 LIM_Y = -2.9                  # y de "S_n -> 0 MB"
-ESPERA_N = (4.5, 3.5, 3.5, 4.5)  # pausa (s) tras la fila de cada n
+ESPERA_N = (2.5, 2, 2, 2.5)  # pausa (s) tras la fila de cada n
+NOMBRE_VOZ = "Rodrigo Gutiérrez" 
 
 
 class EscenaEjemplo(Scene):
@@ -54,6 +55,9 @@ class EscenaEjemplo(Scene):
 
     def animar(self):
         c = MAIN.ceros[0]     # t = 1: donde r cambia de signo
+        # Voz identificada en la esquina superior izquierda (visible todo el clip)
+        voz = Text(NOMBRE_VOZ, font=FONT, font_size=18, color=AXIS_COLOR)
+        voz.to_corner(UL, buff=0.3)
 
         # ------------------------------------------------------------------
         # 1) Apertura (0-22 s): retoma la pregunta con que cierra la Parte 1
@@ -78,7 +82,7 @@ class EscenaEjemplo(Scene):
         acumula_g = VGroup(integral, acumula).arrange(DOWN, buff=0.25)
         acumula_g.next_to(contexto, DOWN, buff=0.6)
 
-        self.play(Write(titulo), run_time=1.5)
+        self.play(Write(titulo), FadeIn(voz), run_time=1.5)
         self.play(Write(pregunta), run_time=2)
         self.wait(3)
         self.play(Write(formula), run_time=2)
@@ -264,4 +268,4 @@ class EscenaEjemplo(Scene):
         conclusion.to_edge(DOWN, buff=0.5)
         self.play(Create(caja), Write(lim), run_time=2)
         self.play(FadeIn(conclusion, shift=UP * 0.2))
-        self.wait(6)
+        self.wait(2.5)
