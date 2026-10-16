@@ -1,6 +1,6 @@
 """
 escena_ejemplo.py — Rodrigo (Grupo 15, MAT1188)
-Parte 2 del video (~115 s): ejemplo principal
+Parte 2 del video (~105 s): ejemplo principal
     r(t) = t^2 - 4t + 3  [MB/s]  en t in [0, 3] s
 
 Renderizar desde la raíz del repositorio:
@@ -146,7 +146,7 @@ class EscenaEjemplo(Scene):
         self.wait(5.5)
 
         # ------------------------------------------------------------------
-        # 3) Dos tramos con signo (45-71 s): [0,1] gana, [1,3] pierde
+        # 3) Dos tramos con signo (45-71,5 s): [0,1] gana, [1,3] pierde
         # ------------------------------------------------------------------
         area_pos = axes.get_area(curva, x_range=(MAIN.a, c),
                                  color=POS_COLOR, opacity=FILL_OPACITY)
@@ -184,7 +184,7 @@ class EscenaEjemplo(Scene):
         self.wait(1)
 
         # ------------------------------------------------------------------
-        # 4) Pasar a sumas de Riemann (71-106 s)
+        # 4) Pasar a sumas de Riemann (71,5-99,5 s)
         # ------------------------------------------------------------------
         self.play(FadeOut(area_pos, area_neg, lbl_pos, lbl_neg, panel),
                   run_time=1.5)
@@ -258,7 +258,7 @@ class EscenaEjemplo(Scene):
             self.wait(ESPERA_N[min(k, len(ESPERA_N) - 1)])
 
         # ------------------------------------------------------------------
-        # 5) Respuesta e interpretación (106-115 s)
+        # 5) Respuesta e interpretación (99,5-105 s)
         # ------------------------------------------------------------------
         caja = SurroundingRectangle(filas[-1][2], color=SUM_COLOR, buff=0.12)
         lim = MathTex(r"S_n\to 0\ \text{MB}", font_size=40, color=SUM_COLOR)

@@ -15,6 +15,10 @@ Contenido (0:00 – 1:45, 105 s):
 Todo dato matemático (función, intervalo, n, punto muestra, colores, textos)
 se importa desde params.py. Aquí solo se definen constantes de maquetación.
 
+Renderizar desde la raíz del repositorio:
+    PowerShell:  $env:PYTHONPATH="."
+                 py -m manim -qh parte1_teoria/escena_teoria.py EscenaTeoria
+
 """
 
 import textwrap

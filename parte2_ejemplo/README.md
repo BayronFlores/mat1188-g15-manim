@@ -1,7 +1,7 @@
 # Parte 2 — Ejemplo principal
 
 **Grupo 15 · MAT1188 Cálculo Intermedio · Integrante: Rodrigo**
-Tramo del video: desde 1:45 (≈115 s; el reparto prevé 105 s) · Escena: `escena_ejemplo.py` · Clase: `EscenaEjemplo`
+Tramo del video: desde 1:45 (≈105 s, igual al reparto) · Escena: `escena_ejemplo.py` · Clase: `EscenaEjemplo`
 
 Pregunta central del grupo: _¿Cómo puede una integral valer cero aunque existan regiones con área positiva?_
 
@@ -29,22 +29,22 @@ tasa cambie de signo.
 
 **Por qué la gráfica es así.**
 
-| Dato | Cómo se obtiene | Valor |
-|---|---|---|
-| Forma | Polinomio de grado 2 con coeficiente de `t²` igual a `1 > 0` | Parábola que abre hacia arriba |
-| Corte con el eje vertical | `r(0) = 0 − 0 + 3` | `(0, 3)` |
-| Cortes con el eje horizontal | `r(t) = (t − 1)(t − 3) = 0`; con la fórmula cuadrática, `t = (4 ± √(16 − 12))/2` | `t = 1` y `t = 3` |
-| Vértice | `t = −b/(2a) = 2` (punto medio de los ceros); `r(2) = 4 − 8 + 3` | Mínimo en `(2, −1)` |
-| Signo | Entre los ceros la parábola queda bajo el eje | `r ≥ 0` en `[0, 1]` y `r ≤ 0` en `[1, 3]` |
+| Dato                         | Cómo se obtiene                                                                  | Valor                                     |
+| ---------------------------- | -------------------------------------------------------------------------------- | ----------------------------------------- |
+| Forma                        | Polinomio de grado 2 con coeficiente de `t²` igual a `1 > 0`                     | Parábola que abre hacia arriba            |
+| Corte con el eje vertical    | `r(0) = 0 − 0 + 3`                                                               | `(0, 3)`                                  |
+| Cortes con el eje horizontal | `r(t) = (t − 1)(t − 3) = 0`; con la fórmula cuadrática, `t = (4 ± √(16 − 12))/2` | `t = 1` y `t = 3`                         |
+| Vértice                      | `t = −b/(2a) = 2` (punto medio de los ceros); `r(2) = 4 − 8 + 3`                 | Mínimo en `(2, −1)`                       |
+| Signo                        | Entre los ceros la parábola queda bajo el eje                                    | `r ≥ 0` en `[0, 1]` y `r ≤ 0` en `[1, 3]` |
 
 **Antiderivada y cálculo exacto.** Una antiderivada es `F(t) = t³/3 − 2t² + 3t`, porque `F'(t) = t² − 4t + 3`.
 Con `F(0) = 0`, `F(1) = 1/3 − 2 + 3 = 4/3` y `F(3) = 9 − 18 + 9 = 0`:
 
-| Tramo | Cálculo | Valor |
-|---|---|---|
-| `[0, 1]` (r ≥ 0) | `F(1) − F(0) = 4/3 − 0` | `+4/3` MB (el buffer gana) |
+| Tramo            | Cálculo                 | Valor                        |
+| ---------------- | ----------------------- | ---------------------------- |
+| `[0, 1]` (r ≥ 0) | `F(1) − F(0) = 4/3 − 0` | `+4/3` MB (el buffer gana)   |
 | `[1, 3]` (r ≤ 0) | `F(3) − F(1) = 0 − 4/3` | `−4/3` MB (el buffer pierde) |
-| Integral | `4/3 + (−4/3)` | `0` MB |
+| Integral         | `4/3 + (−4/3)`          | `0` MB                       |
 
 **Por qué da exactamente 0, y no por simetría.** `F(t) = t³/3 − 2t² + 3t = t(t − 3)²/3`, así que `F(0) = 0` y
 `F(3) = 0`: la antiderivada vuelve a su valor inicial y `F(3) − F(0) = 0`. El extremo `b = 3` es justo el valor
@@ -55,12 +55,12 @@ ejemplo se distingue del simétrico `x³ − 4x` en `[−2, 2]` de la parte 3.
 
 $$\Delta t=\frac{3-0}{n},\qquad t_i^*=\left(i-\tfrac12\right)\Delta t,\qquad S_n=\sum_{i=1}^{n} r(t_i^*)\,\Delta t\quad[\mathrm{MB}]$$
 
-| n | Δt (s) | Sₙ (MB) |
-|---|---|---|
-| 4 | 0,75 | −0,14062 |
-| 8 | 0,375 | −0,03516 |
-| 16 | 0,1875 | −0,00879 |
-| 32 | 0,09375 | −0,00220 |
+| n   | Δt (s)  | Sₙ (MB)  |
+| --- | ------- | -------- |
+| 4   | 0,75    | −0,14062 |
+| 8   | 0,375   | −0,03516 |
+| 16  | 0,1875  | −0,00879 |
+| 32  | 0,09375 | −0,00220 |
 
 Los aportes de `n = 4` (uno por rectángulo) están en la tabla del README de la parte 1: `S_4 ≈ −0,1406`.
 Las cuatro filas coinciden con la salida de `python params.py`.
@@ -81,16 +81,16 @@ contribuciones se compensan exactamente y el buffer termina igual que empezó. E
 ## 2. Qué hace la escena, sección por sección
 
 La escena tiene cinco secciones dentro de `animar`, marcadas con comentarios numerados. Los tiempos salen de la
-suma de los `run_time` y de los `wait` de cada sección (no hay un reloj que fuerce el segundo final), y suman
-≈ 115,5 s.
+suma de los `run_time` y de los `wait` de cada sección (un `play` sin `run_time` dura 1 s por defecto; no hay un
+reloj que fuerce el segundo final), y suman 105 s.
 
-| Sección | Tiempo aprox. | Qué se ve |
-|---|---|---|
-| 1. Apertura | 0–22 s | Título, la pregunta «¿Cuánto vale la integral en nuestro buffer?», `r(t) = t² − 4t + 3` MB/s, «llegada − salida» y `∫₀³ r(t) dt` con «acumula la tasa: (MB/s)·s = MB» |
-| 2. Gráfica | 22–45 s | Ejes `t` [s] y `r(t)` [MB/s], la curva y sus datos: punto `r(0) = 3`, ceros `t = 1` y `t = 3` con `r(t) = (t − 1)(t − 3)`, y el mínimo `(2, −1)` |
-| 3. Dos tramos y cálculo exacto | 45–71 s | Región azul en `[0, 1]` (el buffer gana) y roja en `[1, 3]` (pierde); `F(t)`, `F(1) − F(0) = 4/3 MB`, `F(3) − F(1) = −4/3 MB` y el total `0 MB` |
-| 4. Sumas de Riemann | 71–106,5 s | `S_n`, `Δt = 3/n` y la tabla de `n`, `Δt` y `S_n`; los rectángulos pasan de `n = 4` a 8, 16 y 32 |
-| 5. Respuesta | 106,5–115,5 s | Recuadro verde en `S_32`, `S_n → 0 MB` y «El buffer termina igual que empezó» |
+| Sección                        | Tiempo aprox. | Duración | Qué se ve                                                                                                                                                             |
+| ------------------------------ | ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Apertura                    | 0–22 s        | 22 s     | Título, la pregunta «¿Cuánto vale la integral en nuestro buffer?», `r(t) = t² − 4t + 3` MB/s, «llegada − salida» y `∫₀³ r(t) dt` con «acumula la tasa: (MB/s)·s = MB» |
+| 2. Gráfica                     | 22–45 s       | 23 s     | Ejes `t` [s] y `r(t)` [MB/s], la curva y sus datos: punto `r(0) = 3`, ceros `t = 1` y `t = 3` con `r(t) = (t − 1)(t − 3)`, y el mínimo `(2, −1)`                      |
+| 3. Dos tramos y cálculo exacto | 45–71,5 s     | 26,5 s   | Región azul en `[0, 1]` (el buffer gana) y roja en `[1, 3]` (pierde); `F(t)`, `F(1) − F(0) = 4/3 MB`, `F(3) − F(1) = −4/3 MB` y el total `0 MB`                       |
+| 4. Sumas de Riemann            | 71,5–99,5 s   | 28 s     | `S_n`, `Δt = 3/n` y la tabla de `n`, `Δt` y `S_n`; los rectángulos pasan de `n = 4` a 8, 16 y 32                                                                      |
+| 5. Respuesta                   | 99,5–105 s    | 5,5 s    | Recuadro verde en `S_32`, `S_n → 0 MB` y «El buffer termina igual que empezó»                                                                                         |
 
 ### Cómo está organizado el código
 
@@ -118,25 +118,25 @@ suma de los `run_time` y de los `wait` de cada sección (no hay un reloj que fue
 Los datos matemáticos se importan de `params.py`; en la escena solo se definen constantes de maquetación
 (`AXES_SHIFT`, `PANEL_X`, `TABLE_COLS`, `TABLE_TOP`, `ROW_STEP`, `SUMA_Y`, `LIM_Y`, `ESPERA_N`).
 
-| Parámetro | Qué representa | Dónde se usa |
-|---|---|---|
-| `MAIN` | Ejemplo principal: función, intervalo, ceros y unidades | Toda la escena |
-| `MAIN.f` | La función `r(t)` | La curva, `r(0)`, el mínimo y la altura de cada rectángulo |
-| `MAIN.a`, `MAIN.b` | Extremos `0` y `3` del intervalo | Ejes, curva, límites de `∫` y `Δt` |
-| `MAIN.ceros` | Puntos donde `r` cambia de signo (`1` y `3`) | Puntos `t = 1` y `t = 3`; corte entre región azul y roja; el mínimo se ubica en su punto medio |
-| `MAIN.etiqueta_f` | Texto LaTeX de `r(t)` | Fórmula de la apertura |
-| `MAIN.unidad_var`, `MAIN.unidad_f` | Unidades `s` y `MB/s` | Rótulos de los ejes |
-| `MAIN.F` | Antiderivada (solo verificación) | No se usa en la escena; sirve para comprobar `+4/3` y `−4/3` MB |
-| `N_VALUES` | `n = 4, 8, 16, 32` | Rectángulos y filas de la tabla |
-| `delta_x` | `Δt = (b − a)/n` | Columna `Δt` y ancho de los rectángulos |
-| `sample_points` | Puntos medios `t_i*` | Centro de cada rectángulo |
-| `riemann_terms` | Aportes `r(t_i*)Δt` con signo | Color de cada rectángulo |
-| `riemann_sum` | Suma de Riemann `S_n` | Columna `S_n` de la tabla |
-| `POS_COLOR`, `NEG_COLOR` | Azul = aporte positivo, rojo = negativo | Regiones y rectángulos |
-| `SUM_COLOR`, `CURVE_COLOR`, `AXIS_COLOR` | Resultado, curva, ejes y textos auxiliares | Estilo común del video |
-| `BG_COLOR`, `FILL_OPACITY` | Fondo oscuro y opacidad del relleno | Estilo común |
-| `PIXEL_WIDTH`, `PIXEL_HEIGHT`, `FPS` | 1920×1080 a 30 fps | Configuración de Manim |
-| `FONT` | DejaVu Sans, cargada desde `fonts/` | Todos los textos |
+| Parámetro                                | Qué representa                                          | Dónde se usa                                                                                   |
+| ---------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `MAIN`                                   | Ejemplo principal: función, intervalo, ceros y unidades | Toda la escena                                                                                 |
+| `MAIN.f`                                 | La función `r(t)`                                       | La curva, `r(0)`, el mínimo y la altura de cada rectángulo                                     |
+| `MAIN.a`, `MAIN.b`                       | Extremos `0` y `3` del intervalo                        | Ejes, curva, límites de `∫` y `Δt`                                                             |
+| `MAIN.ceros`                             | Puntos donde `r` cambia de signo (`1` y `3`)            | Puntos `t = 1` y `t = 3`; corte entre región azul y roja; el mínimo se ubica en su punto medio |
+| `MAIN.etiqueta_f`                        | Texto LaTeX de `r(t)`                                   | Fórmula de la apertura                                                                         |
+| `MAIN.unidad_var`, `MAIN.unidad_f`       | Unidades `s` y `MB/s`                                   | Rótulos de los ejes                                                                            |
+| `MAIN.F`                                 | Antiderivada (solo verificación)                        | No se usa en la escena; sirve para comprobar `+4/3` y `−4/3` MB                                |
+| `N_VALUES`                               | `n = 4, 8, 16, 32`                                      | Rectángulos y filas de la tabla                                                                |
+| `delta_x`                                | `Δt = (b − a)/n`                                        | Columna `Δt` y ancho de los rectángulos                                                        |
+| `sample_points`                          | Puntos medios `t_i*`                                    | Centro de cada rectángulo                                                                      |
+| `riemann_terms`                          | Aportes `r(t_i*)Δt` con signo                           | Color de cada rectángulo                                                                       |
+| `riemann_sum`                            | Suma de Riemann `S_n`                                   | Columna `S_n` de la tabla                                                                      |
+| `POS_COLOR`, `NEG_COLOR`                 | Azul = aporte positivo, rojo = negativo                 | Regiones y rectángulos                                                                         |
+| `SUM_COLOR`, `CURVE_COLOR`, `AXIS_COLOR` | Resultado, curva, ejes y textos auxiliares              | Estilo común del video                                                                         |
+| `BG_COLOR`, `FILL_OPACITY`               | Fondo oscuro y opacidad del relleno                     | Estilo común                                                                                   |
+| `PIXEL_WIDTH`, `PIXEL_HEIGHT`, `FPS`     | 1920×1080 a 30 fps                                      | Configuración de Manim                                                                         |
+| `FONT`                                   | DejaVu Sans, cargada desde `fonts/`                     | Todos los textos                                                                               |
 
 **Textos que se escriben a mano.** Las fórmulas que se muestran en pantalla (`r(t) = (t − 1)(t − 3)`, `F(t)`,
 `4/3`, `Δt = (3 − 0)/n`) están escritas en LaTeX dentro de la escena, no se calculan desde `params.py`. Sus valores
@@ -150,6 +150,7 @@ Siempre desde la **raíz del repositorio** (donde está `params.py`), con la ra�
 Antes de renderizar, ejecutar `python params.py`: debe terminar en `OK: parámetros consistentes.`
 
 **PowerShell**
+
 ```
 $env:PYTHONPATH="."
 python params.py
@@ -167,7 +168,7 @@ Si PowerShell no reconoce `manim`, se ejecuta a través de Python: `py -m manim 
   `[AVISO]` y sigue con la fuente por defecto.
 - El video queda en `media/videos/escena_ejemplo/1080p30/EscenaEjemplo.mp4` y no tiene audio: la voz se graba
   aparte y se une al video para exportar `parte2.mp4`.
-- La duración es de ≈ 115 s, unos 10 s más que los 105 s del reparto; el total del video sigue dentro de 4:00–6:00.
+- La duración es de ≈ 105 s, igual a los 105 s del reparto; el total del video sigue dentro de 4:00–6:00.
 
 ---
 
@@ -184,6 +185,8 @@ Si PowerShell no reconoce `manim`, se ejecuta a través de Python: `py -m manim 
 
 - **[CONFIRMAR]** Ejecuté `python params.py` en mi computador y terminó en `OK: parámetros consistentes.`
 - **[CONFIRMAR]** Rendericé la escena con Manim v0.22.0 y revisé el video sección por sección.
+- La duración de 105 s se verificó sumando los `run_time` y los `wait` de cada sección (22 + 23 + 26,5 + 28 + 5,5).
+  **[CONFIRMAR]** Comparar con la duración del MP4 renderizado.
 - Los valores del ejemplo (`F(0) = 0`, `F(1) = 4/3`, `F(3) = 0`, `r(0) = 3`, `r(2) = −1`) y la identidad
   `F(t) = t(t − 3)²/3` se comprobaron con la antiderivada de `params.py`. **[CONFIRMAR]** Además los recalculé a mano.
 - Las sumas `S_4, S_8, S_16, S_32` coinciden con `−9/(4n²)` y con la salida de `python params.py`.
@@ -197,6 +200,7 @@ Si PowerShell no reconoce `manim`, se ejecuta a través de Python: `py -m manim 
 **Herramienta:** Claude (Anthropic).
 
 **Para qué la usé:**
+
 - Escribir el código de la escena de Manim de mi parte (`escena_ejemplo.py`) y ajustar su posición, espaciado y
   tiempos según lo que pedí al ver el video.
 - Redactar un borrador del guion (`guion_parte2.md`) y de este README.
