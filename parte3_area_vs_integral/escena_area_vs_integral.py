@@ -72,7 +72,9 @@ IA_JOSE = ("Uso de IA (José): Claude (Anthropic), como apoyo para el código de
            "escena y la revisión de cálculos; verificado con params.py y renders.")
 IA_BAYRON = ("Uso de IA (Bayron): Claude, como apoyo para desarrollar y comprender el "
              "script de Python; verificado mediante pruebas.")
-IA_RODRIGO = "Uso de IA (Rodrigo): PENDIENTE"
+IA_RODRIGO = ("Uso de IA (Rodrigo): Claude (Anthropic), como apoyo para el código de su "
+              "escena, el borrador del guion y la comprensión del problema; verificado "
+              "revisando el video renderizado y los valores del ejemplo.")
 
 
 # ---------------------------------------------------------------------------
