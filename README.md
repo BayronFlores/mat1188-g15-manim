@@ -133,8 +133,8 @@ PYTHONPATH=. manim -ql <archivo> <Clase>
 - **Apunte base.** Higueras, N., Oyarzo, F. y Matus, V. (2026). _Introducción a la integral_. Cálculo Intermedio (Blackboard).
 - **Fuentes matemáticas complementarias.**
   1. Strang, G. y Herman, E. (2016). _Calculus Volume 1_, §5.2 «The Definite Integral». OpenStax. https://openstax.org/books/calculus-volume-1
-  2. **[COMPLETAR]** Autor o institución, título, año y enlace.
-- **Documentación de Manim.** Manim Community Developers. _Manim Community v0.22.0, documentación oficial_. https://docs.manim.community **[COMPLETAR]** año y sección consultada.
+  2. Dawkins, P. (2026). _Calculus I – Definition of the Definite Integral_. Paul's Online Notes. https://tutorial.math.lamar.edu/Classes/CalcI/DefnOfDefiniteIntegral.aspx
+- **Documentación de Manim.** Manim Community Developers. _Manim Community v0.22.0, documentación oficial_ (2026). Sección consultada: https://docs.manim.community
 - **Recursos adaptados.** **[COMPLETAR]** Origen, autor y enlace, o «Ninguno». Recurso incluido en el repositorio: fuente DejaVu Sans (licencia libre en `fonts/LICENSE-DejaVu.txt`). https://dejavu-fonts.github.io
 
 ---
