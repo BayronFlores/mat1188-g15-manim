@@ -1,13 +1,14 @@
 """
 escena_area_vs_integral.py — Parte 3 (José): integral frente a área y cierre.
-Grupo 15, MAT1188 (EID Manim 2026).  Tramo del video: 3:30–5:15 (105 s).
+Grupo 15, MAT1188 (EID Manim 2026).  Tramo del video: 3:30–5:00 (90 s).
 
-Bloques (tiempos relativos al inicio del clip):
-    A  0–20 s   Traspaso: el buffer de red, regiones azul/roja, integral = 0 MB
-    B 20–45 s   Integral frente a área: reflejo de la región roja, 8/3 MB
-    C 45–68 s   Ejemplo simétrico x^3 - 4x: la simetría explica la cancelación
-    D 68–82 s   Respuesta a la pregunta central y limitación
-    E 82–105 s  Créditos
+Tiempos ajustados al audio grabado (audio_parte3.wav, 84,4 s), relativos al
+inicio del clip:
+    A  0–19,6 s    Traspaso: el buffer de red, regiones azul/roja, integral = 0 MB
+    B 19,6–38,1 s  Integral frente a área: reflejo de la región roja, 8/3 MB
+    C 38,1–61,4 s  Ejemplo simétrico x^3 - 4x: la simetría explica la cancelación
+    D 61,4–78,6 s  Respuesta a la pregunta central y limitación
+    E 78,6–90 s    Créditos (quedan en pantalla unos segundos tras la última frase)
 
 Todo dato matemático (funciones, intervalos, n, colores, tiempos) viene de
 params.py. Aquí solo hay constantes de posición y los textos de los créditos.
@@ -41,11 +42,11 @@ ARCHIVOS_FUENTE = ("DejaVuSans.ttf", "DejaVuSans-Bold.ttf")
 # Constantes propias de esta escena (posiciones y tiempos de bloque)
 # ---------------------------------------------------------------------------
 FIN_BLOQUE = {                       # segundo del clip en que termina cada bloque
-    "A": 20,
-    "B": 45,
-    "C": 68,
-    "D": 82,
-    "E": DURACION_PARTE["parte3"],   # 105 s
+    "A": 19.6,                       # medidos sobre el audio grabado
+    "B": 38.1,
+    "C": 61.4,
+    "D": 78.6,
+    "E": 90.0,                       # audio 84,4 s + créditos visibles al final
 }
 
 EJES_ANCHO = 6.2
@@ -59,16 +60,18 @@ TAM_FORMULA = 36
 # Créditos (completar lo marcado como PENDIENTE antes de renderizar la versión final)
 FUENTE_APUNTE = ("Apunte base: Higueras, N., Oyarzo, F. y Matus, V. (2026). "
                  "Introducción a la integral. Cálculo Intermedio (Blackboard).")
-FUENTE_OPENSTAX = ("Strang, G. y Herman, E. (2016). Calculus Volume 1, §5.2 "
-                   "The Definite Integral. OpenStax. "
-                   "openstax.org/books/calculus-volume-1")
-FUENTE_RODRIGO = "PENDIENTE: fuente matemática complementaria de Rodrigo (autor, título, año, enlace)"
+FUENTE_OPENSTAX = ("Strang, G. y Herman, E. (2016). Calculus Volume 1, §5.2 y §5.4. "
+                   "OpenStax. openstax.org/books/calculus-volume-1")
+FUENTE_RODRIGO = ("Dawkins, P. (2026). Calculus I – Definition of the Definite Integral. "
+                  "Paul's Online Notes. "
+                  "tutorial.math.lamar.edu/Classes/CalcI/DefnOfDefiniteIntegral.aspx")
 FUENTE_MANIM = ("Manim Community Developers. Manim Community v0.22.0, "
                 "documentación oficial. docs.manim.community")
 FUENTE_DEJAVU = "DejaVu Fonts (licencia libre). dejavu-fonts.github.io"
 IA_JOSE = ("Uso de IA (José): Claude (Anthropic), como apoyo para el código de esta "
            "escena y la revisión de cálculos; verificado con params.py y renders.")
-IA_BAYRON = "Uso de IA (Bayron): PENDIENTE"
+IA_BAYRON = ("Uso de IA (Bayron): Claude, como apoyo para desarrollar y comprender el "
+             "script de Python; verificado mediante pruebas.")
 IA_RODRIGO = "Uso de IA (Rodrigo): PENDIENTE"
 
 
@@ -202,10 +205,20 @@ class EscenaAreaVsIntegral(Scene):
             print(f"[AVISO] el bloque {bloque} termina en {self.reloj:.1f} s "
                   f"(objetivo {segundo} s): recortar animaciones")
 
-    def limpiar(self, conservar=()):
+    def en(self, segundo):
+        """Espera hasta `segundo` del clip (para que cada elemento aparezca cuando se nombra)."""
+        resto = segundo - self.reloj
+        if resto > 0.01:
+            self.wait(resto)
+            self.reloj = segundo
+        elif resto < -0.3:
+            print(f"[AVISO] llegamos tarde: reloj {self.reloj:.1f} s, "
+                  f"se pedia {segundo} s")
+
+    def limpiar(self, conservar=(), duracion=1.0):
         salientes = [FadeOut(m) for m in self.mobjects if m not in conservar]
         if salientes:
-            self.jugar(*salientes, run_time=1.0)
+            self.jugar(*salientes, run_time=duracion)
 
     def animar(self):
         self.reloj = 0.0
@@ -223,25 +236,31 @@ class EscenaAreaVsIntegral(Scene):
         g = self.g
         self.encabezado = texto("Retomamos el buffer de red", tam=34).to_edge(UP)
 
+        # voz: "Hola, soy José. Rodrigo nos mostró que, en el buffer de red, ..."
         self.jugar(FadeIn(voz), Write(self.encabezado), run_time=1.5)
         self.jugar(Create(g["ejes"]), Write(g["nombres"]), run_time=2.0)
         self.jugar(Create(g["curva"]), run_time=2.0)
-        self.jugar(FadeIn(g["pos"]), Write(g["et_pos"]), run_time=1.5)
-        self.jugar(FadeIn(g["neg"]), Write(g["et_neg"]), run_time=1.5)
 
         self.f_integral = formula(
             integral_tex(MAIN) + "=" + fraccion_tex(MAIN.integral_exacta)
             + unidad_tex(MAIN), FILAS[0], color=SUM_COLOR)
         self.pregunta = texto("¿Significa que no pasó nada?", tam=32).move_to(
             RIGHT * PANEL_X + UP * FILAS[2])
+        self.en(8.5)                                  # "la integral de r ... vale 0 megabytes"
         self.jugar(Write(self.f_integral), run_time=2.0)
-        self.jugar(FadeIn(self.pregunta), run_time=1.5)
+        self.en(11.0)                                 # "lo que el buffer gana en el primer segundo"
+        self.jugar(FadeIn(g["pos"]), Write(g["et_pos"]), run_time=1.5)
+        self.en(14.2)                                 # "lo pierde después"
+        self.jugar(FadeIn(g["neg"]), Write(g["et_neg"]), run_time=1.5)
+        self.en(17.0)                                 # "¿significa que no pasó nada?" (17–18 s)
+        self.jugar(FadeIn(self.pregunta), run_time=1.2)
         self.hasta(FIN_BLOQUE["A"], "A")
 
     # ------------------------------------------------------------------ B
     def bloque_b(self):
         g = self.g
         encabezado_b = texto("Integral frente a área", tam=34).to_edge(UP)
+        self.en(19.6)                                 # "No."
         self.jugar(FadeOut(self.pregunta),
                    ReplacementTransform(self.encabezado, encabezado_b),
                    run_time=1.0)
@@ -252,22 +271,26 @@ class EscenaAreaVsIntegral(Scene):
         f_area = formula(
             integral_tex(MAIN, absoluto=True) + "=" + fraccion_tex(MAIN.area_exacta)
             + unidad_tex(MAIN), FILAS[1], color=SUM_COLOR)
-        self.jugar(Write(f_area), run_time=2.5)
 
         # reflejo de la región roja sobre el eje: lo negativo pasa a contar positivo
         origen = g["ejes"].c2p(0, 0)
         copia = g["neg"].copy()
         reflejo = (g["neg"].copy().flip(RIGHT, about_point=origen)
                    .set_fill(SUM_COLOR, opacity=FILL_OPACITY))
+        self.en(22.5)                                 # "pero el área geométrica lo cuenta todo como positivo"
         self.jugar(Transform(copia, reflejo), run_time=3.0)
+        self.en(25.7)                                 # "es la integral del valor absoluto de r"
+        self.jugar(Write(f_area), run_time=2.5)
 
         f_suma = formula(
             "+".join(fraccion_tex(t) for t in tramos) + "="
             + fraccion_tex(MAIN.area_exacta) + unidad_tex(MAIN), FILAS[2])
+        self.en(29.8)                                 # "Sumamos cuatro tercios más cuatro tercios ..."
         self.jugar(Write(f_suma), run_time=2.5)
 
         trafico = texto("= tráfico total que se movió", tam=28, color=SUM_COLOR).move_to(
             RIGHT * PANEL_X + UP * FILAS[3])
+        self.en(33.2)                                 # "Ese es el tráfico total"
         self.jugar(FadeIn(trafico), run_time=1.5)
 
         n = N_VALUES[-1]
@@ -275,52 +298,60 @@ class EscenaAreaVsIntegral(Scene):
         f_riemann = formula(
             rf"\sum_{{i=1}}^{{{n}}} |r(t_i^*)|\,\Delta t \approx "
             + decimal_tex(aprox) + unidad_tex(MAIN), FILAS[4], tam=30)
-        self.jugar(Write(f_riemann), run_time=2.5)
+        self.en(35.5)                                 # "aunque el buffer termine igual que empezó"
+        self.jugar(Write(f_riemann), run_time=2.0)
         self.encabezado = encabezado_b
         self.hasta(FIN_BLOQUE["B"], "B")
 
     # ------------------------------------------------------------------ C
     def bloque_c(self, voz):
+        self.en(38.1)                                 # "Veamos otro caso: f de x = x^3 - 4x"
         self.limpiar(conservar=(voz,))
         encabezado_c = texto("Otro ejemplo: una función impar", tam=34).to_edge(UP)
         g = construir_grafica(SYM, -4, 4)
-
-        self.jugar(Write(encabezado_c), run_time=1.0)
-        self.jugar(Create(g["ejes"]), Write(g["nombres"]), run_time=1.5)
-        self.jugar(Create(g["curva"]), run_time=1.5)
-        self.jugar(FadeIn(g["pos"]), Write(g["et_pos"]), run_time=1.5)
-        self.jugar(FadeIn(g["neg"]), Write(g["et_neg"]), run_time=1.5)
-
         f_def = formula(SYM.etiqueta_f, FILAS[0])
         f_impar = formula(r"f(-x)=-f(x)\ \Rightarrow\ \text{impar}", FILAS[1])
-        self.jugar(Write(f_def), Write(f_impar), run_time=2.0)
+
+        self.jugar(Write(encabezado_c), Write(f_def), run_time=1.0)
+        self.jugar(Create(g["ejes"]), Write(g["nombres"]), run_time=1.5)
+        self.jugar(Create(g["curva"]), run_time=1.5)
+        self.en(44.0)                                 # "Es una función impar"
+        self.jugar(Write(f_impar), run_time=1.5)
+        self.en(46.0)                                 # "la región azul de la izquierda ... la roja de la derecha"
+        self.jugar(FadeIn(g["pos"]), Write(g["et_pos"]),
+                   FadeIn(g["neg"]), Write(g["et_neg"]), run_time=1.2)
+        self.en(48.0)                                 # "es el reflejo de ..."
 
         # simetría: la región azul, girada 180° sobre el origen, cae sobre la roja
         origen = g["ejes"].c2p(0, 0)
         punto = Dot(origen, color=AXIS_COLOR)
         sombra = (g["pos"].copy().set_fill(AXIS_COLOR, opacity=0.5)
                   .set_stroke(width=0))
-        self.jugar(FadeIn(punto), FadeIn(sombra), run_time=0.5)
-        self.jugar(Rotate(sombra, angle=PI, about_point=origen), run_time=3.0)
-        self.jugar(FadeOut(sombra), FadeOut(punto), run_time=0.5)
+        self.jugar(FadeIn(punto), FadeIn(sombra), run_time=0.4)
+        self.jugar(Rotate(sombra, angle=PI, about_point=origen), run_time=2.5)
+        self.jugar(FadeOut(sombra), FadeOut(punto), run_time=0.4)
 
         f_int = formula(integral_tex(SYM) + "=" + fraccion_tex(SYM.integral_exacta),
                         FILAS[2], color=SUM_COLOR)
         f_area = formula(integral_tex(SYM, absoluto=True) + "="
                          + fraccion_tex(SYM.area_exacta), FILAS[3], color=SUM_COLOR)
-        self.jugar(Write(f_int), run_time=2.0)
-        self.jugar(Write(f_area), run_time=2.0)
+        self.en(52.0)                                 # "la integral da 0"
+        self.jugar(Write(f_int), run_time=1.5)
+        self.en(53.6)                                 # "y el área da 8"
+        self.jugar(Write(f_area), run_time=1.5)
 
         n = N_VALUES[-1]
         f_riemann = formula(
             rf"\sum_{{i=1}}^{{{n}}} |f(x_i^*)|\,\Delta x \approx "
             + decimal_tex(riemann_abs_sum(SYM, n)), FILAS[4], tam=30)
+        self.en(56.0)                                 # "Aquí la simetría explica la cancelación..."
         self.jugar(Write(f_riemann), run_time=2.0)
         self.hasta(FIN_BLOQUE["C"], "C")
 
     # ------------------------------------------------------------------ D
     def bloque_d(self, voz):
-        self.limpiar(conservar=(voz,))
+        self.en(61.4)                                 # "Entonces, ¿cómo puede una integral valer cero...?"
+        self.limpiar(conservar=(voz,), duracion=0.8)
         encabezado_d = texto("Respuesta a la pregunta central", tam=34).to_edge(UP)
         pregunta = texto(PREGUNTA_CENTRAL, tam=32, color=CURVE_COLOR, ancho=48
                          ).move_to(UP * 1.9)
@@ -335,16 +366,18 @@ class EscenaAreaVsIntegral(Scene):
             "Pero integral cero no significa que f sea nula\n"
             "ni que el área sea cero.", tam=28, color=NEG_COLOR).move_to(DOWN * 2.8)
 
-        self.jugar(Write(encabezado_d), run_time=1.0)
-        self.jugar(Write(pregunta), run_time=3.0)
-        self.jugar(FadeIn(respuesta), run_time=2.0)
+        self.jugar(Write(encabezado_d), Write(pregunta), run_time=3.0)
+        self.en(67.1)                                 # "Porque es el límite de sumas con signo..."
+        self.jugar(FadeIn(respuesta), run_time=1.2)
         self.jugar(Write(limite), run_time=2.5)
-        self.jugar(FadeIn(limitacion), run_time=2.0)
+        self.en(72.3)                                 # "Pero ojo: integral cero no significa..."
+        self.jugar(FadeIn(limitacion), run_time=1.5)
         self.hasta(FIN_BLOQUE["D"], "D")
 
     # ------------------------------------------------------------------ E
     def bloque_e(self):
-        self.limpiar()
+        self.en(78.6)                                 # "Gracias por ver el video..."
+        self.limpiar(duracion=0.8)
         titulo = texto("Créditos", tam=36).to_edge(UP)
         lineas = [
             f"{CURSO} · Grupo {GRUPO}",
@@ -361,7 +394,7 @@ class EscenaAreaVsIntegral(Scene):
             items.scale_to_fit_height(6.0)
         items.next_to(titulo, DOWN, buff=0.35)
 
-        self.jugar(Write(titulo), run_time=1.0)
+        self.jugar(Write(titulo), run_time=0.8)
         self.jugar(LaggedStart(*[FadeIn(i) for i in items], lag_ratio=0.35),
-                   run_time=6.0)
+                   run_time=5.0)
         self.hasta(FIN_BLOQUE["E"], "E")
